@@ -4,36 +4,28 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-// import LinksScreen from '../screens/LinksScreen';
+import BusInfoScreen from '../screens/BusInfoScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
+  BusInfo: BusInfoScreen,
 });
 
-HomeStack.navigationOptions = {
-  tabBarLabel: '首页',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name="md-home"
-    />
-  ),
-};
+HomeStack.navigationOptions = ({navigation}) => {
+  return {
+    tabBarVisible: navigation.state.index === 0,
+    tabBarLabel: '首页',
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name="md-home"
+      />
+    ),
+  };
+}
 
-// const LinksStack = createStackNavigator({
-//   Links: LinksScreen,
-// });
-
-// LinksStack.navigationOptions = {
-//   tabBarLabel: 'Links',
-//   tabBarIcon: ({ focused }) => (
-//     <TabBarIcon
-//       focused={focused}
-//       name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-//     />
-//   ),
-// };
 
 const SettingsStack = createStackNavigator({
   Settings: SettingsScreen,
@@ -49,8 +41,15 @@ SettingsStack.navigationOptions = {
   ),
 };
 
-export default createBottomTabNavigator({
+const TabNavigator = createBottomTabNavigator({
   HomeStack,
   // LinksStack,
   SettingsStack,
 });
+
+export default TabNavigator;
+
+// export default createStackNavigator({
+//   Tabs: TabNavigator,
+//   BusInfo: BusInfoScreen,
+// })
