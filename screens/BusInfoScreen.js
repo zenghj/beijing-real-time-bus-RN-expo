@@ -26,13 +26,13 @@ function encodeWatchUniqueKey(query) {
 export default class BusInfoScreen extends React.Component {
   static navigationOptions = {
     title: '公交实时详情',
-    // headerStyle: {
-    //   backgroundColor: '#000'
-    // },
-    // headerTitleStyle: {
-    //   color: '#fff'
-    // }
-    // headerTitle: this.props.navigation.getParam()
+    headerStyle: {
+      backgroundColor: '#000'
+    },
+    headerTitleStyle: {
+      color: '#fff'
+    },
+    headerTintColor: '#fff',
   };
 
   refreshTimer=  null;
