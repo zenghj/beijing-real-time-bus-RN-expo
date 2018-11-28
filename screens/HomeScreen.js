@@ -43,19 +43,24 @@ export default class HomeScreen extends React.Component {
     lineId: '',
     dirs: [],
     dirId: '',
+    dirSelectEnabled: false,
     stations: [],
     stopSeq: '',
+    stationSelectEnabled: false,
+
   };
   clearDirSelect = () => {
     this.setState({
       dirs: [],
       dirId: '',
+      dirSelectEnabled: false,
     })
   }
   clearStationSelect = () => {
     this.setState({
       stations: [],
       stopSeq: '',
+      stationSelectEnabled: false,
     })
   }
   handleLineIdChange = (lineId) => {
@@ -64,9 +69,11 @@ export default class HomeScreen extends React.Component {
     })
     this.clearDirSelect();
     this.clearStationSelect();
-    getBusDirList(lineId).then(list => {
+
+    lineId && getBusDirList(lineId).then(list => {
       this.setState({
         dirs: list || [],
+        dirSelectEnabled: true,
       })
     }, (err) => {console.error(err)})
   }
@@ -75,9 +82,10 @@ export default class HomeScreen extends React.Component {
       dirId,
     })
     this.clearStationSelect();
-    getBusDirStationList(this.state.lineId, dirId).then(list => {
+    dirId && getBusDirStationList(this.state.lineId, dirId).then(list => {
       this.setState({
         stations: list || [],
+        stationSelectEnabled: true,
       })
     }, (err) => {console.error(err)})
   }
@@ -132,12 +140,13 @@ export default class HomeScreen extends React.Component {
           <View style={styles.formItem}>
             <Text style={styles.formLabel}>路线方向</Text>
             <Picker
-              style={styles.picker}
+              enabled={this.state.dirSelectEnabled}
+              style={[styles.picker, !this.state.dirSelectEnabled ? styles.disabled : {}]}
               mode="dropdown"
               selectedValue={this.state.dirId}
               onValueChange={this.handleDirIdChange}
             >
-              <Picker.Item itemStyle={styles.placeholder} label="请选择路线方向" value="" />
+              <Picker.Item itemStyle={styles.placeholder}  label="请选择路线方向" value="" />
               {
                 this.state.dirs.map((item, index) => (
                   <Picker.Item itemStyle={styles.pickerItem} label={item.text} value={item.id} key={index}></Picker.Item>)
@@ -148,7 +157,8 @@ export default class HomeScreen extends React.Component {
           <View style={styles.formItem}>
             <Text style={styles.formLabel}>上车站点</Text>
             <Picker
-              style={styles.picker}
+              enabled={this.state.stationSelectEnabled}
+              style={[styles.picker, !this.state.stationSelectEnabled ? styles.disabled : {}]}
               mode="dropdown"
               selectedValue={this.state.stopSeq}
               onValueChange={this.handleStopSeqChange}
@@ -171,6 +181,9 @@ export default class HomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  disabled: {
+    opacity: 0.5,
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',

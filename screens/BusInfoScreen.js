@@ -8,6 +8,7 @@ import {
   ProgressBarAndroid,
   ActivityIndicator,
   RefreshControl,
+  Alert,
 } from 'react-native';
 import { getBusTimeInfo } from '../api';
 import { Icon } from 'expo';
@@ -24,6 +25,7 @@ function encodeWatchUniqueKey(query) {
 
 export default class BusInfoScreen extends React.Component {
   static navigationOptions = {
+    title: '公交实时详情',
     // headerStyle: {
     //   backgroundColor: '#000'
     // },
@@ -65,6 +67,8 @@ export default class BusInfoScreen extends React.Component {
       this.setState({
         pageInited: true
       })
+    }).catch(err => {
+      Alert.alert(err)
     });
   }
   updateBusInfo = () => {
@@ -141,6 +145,11 @@ export default class BusInfoScreen extends React.Component {
     }
     this.updateBusInfo();
   }
+  componentWillUnmount() {
+    if(this.refreshTimer) {
+      clearTimeout(this.refreshTimer);
+    }
+  }
   render() {
     let { busInfo = {}, pageInited, loading, isWatchOn } = this.state;
     let { busesArriving, busesOnTheWay } = busInfo;
@@ -190,6 +199,7 @@ export default class BusInfoScreen extends React.Component {
                   <Text>{busInfo.busRunTime}</Text>
                 </View>
               </View>
+              <View style={styles.buttonWrapper}>
               {!isWatchOn && (
                 <Button
                   title="关注"
@@ -204,6 +214,8 @@ export default class BusInfoScreen extends React.Component {
                   onPress={() => this.makeAttention(false)}
                 />
               )}
+              </View>
+              
             </View>
             <View style={styles.desc2}>
               <Text>{busInfo.desc2}</Text>
@@ -287,6 +299,10 @@ const styles = StyleSheet.create({
   desc2: {
     marginBottom: 5,
     marginTop: 5
+  },
+  buttonWrapper: {
+    width: 80,
+    // flex: 1,
   },
   btn: {
     // pa

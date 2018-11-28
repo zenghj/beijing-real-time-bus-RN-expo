@@ -5,7 +5,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import BusInfoScreen from '../screens/BusInfoScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import MyWatchListScreen from '../screens/MyWatchListScreen';
 
 
 const HomeStack = createStackNavigator({
@@ -35,11 +35,11 @@ HomeStack.navigationOptions = ({navigation}) => {
 }
 
 
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
+const MyWatchListStack = createStackNavigator({
+  Settings: MyWatchListScreen,
 });
 
-SettingsStack.navigationOptions = {
+MyWatchListStack.navigationOptions = {
   tabBarLabel: '我的关注',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -52,7 +52,7 @@ SettingsStack.navigationOptions = {
 const TabNavigator = createBottomTabNavigator({
   HomeStack,
   // LinksStack,
-  SettingsStack,
+  MyWatchListStack,
 });
 
 export default TabNavigator;
