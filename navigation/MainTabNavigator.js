@@ -23,6 +23,14 @@ HomeStack.navigationOptions = ({navigation}) => {
         name="md-home"
       />
     ),
+    // defaultNavigationOptions: {
+    //   headerStyle: {
+    //     backgroundColor: '#000'
+    //   },
+    //   headerTitleStyle: {
+    //     color: '#fff'
+    //   }
+    // }
   };
 }
 
